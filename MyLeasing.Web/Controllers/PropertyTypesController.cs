@@ -34,7 +34,7 @@ namespace MyLeasing.Web.Controllers
             }
 
             var propertyType = await _context.PropertyTypes
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(p => p.Id == id);
             if (propertyType == null)
             {
                 return NotFound();
