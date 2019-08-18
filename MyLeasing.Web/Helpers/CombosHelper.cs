@@ -30,7 +30,7 @@ namespace MyLeasing.Web.Helpers
             });
             return list;
         }
-
+       
         public IEnumerable<SelectListItem> GetComboPropertyTypes()
         {
             var list = _dataContext.PropertyTypes.Select(pt => new SelectListItem
