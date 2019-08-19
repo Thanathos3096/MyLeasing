@@ -185,23 +185,25 @@ namespace MyLeasing.Web.Controllers
             }
 
             var owner = await _dataContext.Owners
+                .Include(o => o.User)
+                .Include(o => o.Properties)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (owner == null)
             {
                 return NotFound();
             }
 
-            return View(owner);
-        }
+            if(owner.Properties.Count != 0)
+            {
+                ModelState.AddModelError(string.Empty, "Owner cant be delete because it has properties.");
+                return RedirectToAction(nameof(Index)); ;
+            }
 
-        // POST: Owners/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var owner = await _dataContext.Owners.FindAsync(id);
+
+
             _dataContext.Owners.Remove(owner);
             await _dataContext.SaveChangesAsync();
+            await _userHelper.DeleteUserAsync(owner.User.Email);
             return RedirectToAction(nameof(Index));
         }
 
