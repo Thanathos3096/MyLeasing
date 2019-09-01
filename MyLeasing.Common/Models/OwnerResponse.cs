@@ -18,6 +18,8 @@ namespace MyLeasing.Common.Models
 
         public string Email { get; set; }
 
+        public string FullName => $"{FirstName} {LastName}";
+
         public ICollection<PropertyResponse> Properties { get; set; }
     }
 }
