@@ -1,11 +1,7 @@
 ﻿using MyLeasing.Common.Models;
 using MyLeasing.Common.Services;
 using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Navigation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MyLeasing.Prism.ViewModels
 {
@@ -23,18 +19,21 @@ namespace MyLeasing.Prism.ViewModels
             Title = "Login";
             IsEnabled = true;
             _apiService = apiService;
+
+            Email = "jzuluaga55@hotmail.com";
+            Password = "123456";
         }
 
         public DelegateCommand LoginCommand => _loginCommand ?? (_loginCommand = new DelegateCommand(Login));
 
-        
+
 
         public string Email { get; set; }
 
         public string Password
         {
             get => _password;
-            set => SetProperty(ref _password,value);
+            set => SetProperty(ref _password, value);
         }
         public bool IsRunning
         {
@@ -48,7 +47,7 @@ namespace MyLeasing.Prism.ViewModels
         }
         private async void Login()
         {
-           if(string.IsNullOrEmpty(Email))
+            if (string.IsNullOrEmpty(Email))
             {
                 await App.Current.MainPage.DisplayAlert("Error", "You must enter an email", "Accept");
                 return;
@@ -64,7 +63,7 @@ namespace MyLeasing.Prism.ViewModels
             var request = new TokenRequest
             {
                 Password = Password,
-                Username= Email
+                Username = Email
             };
 
             var url = App.Current.Resources["UrlAPI"].ToString();
@@ -80,7 +79,9 @@ namespace MyLeasing.Prism.ViewModels
                 Password = string.Empty;
                 return;
             }
-            await App.Current.MainPage.DisplayAlert("Ok","Fuck Yeah!!!","Accept");
+
+            var token = response.Result;
+            await App.Current.MainPage.DisplayAlert("Ok", "Fuck Yeah!!!", "Accept");
         }
     }
 }
