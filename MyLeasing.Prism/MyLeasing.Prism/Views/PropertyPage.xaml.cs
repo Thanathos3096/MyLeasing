@@ -8,5 +8,6 @@ namespace MyLeasing.Prism.Views
         {
             InitializeComponent();
         }
+
     }
 }

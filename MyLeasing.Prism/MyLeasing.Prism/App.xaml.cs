@@ -22,6 +22,7 @@ namespace MyLeasing.Prism
 
         protected override async void OnInitialized()
         {
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MTQwMjEyQDMxMzcyZTMyMmUzMERKbzVBWE0wRzlxT3hwM0FUZkpZbXBQM25OalFTb29ORHQ3b3c1aE9hSnM9");
             InitializeComponent();
 
             await NavigationService.NavigateAsync("NavigationPage/LoginPage");
