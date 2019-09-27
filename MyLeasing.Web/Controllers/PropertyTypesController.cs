@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MyLeasing.Web.Data;
 using MyLeasing.Web.Data.Entities;
@@ -21,42 +18,19 @@ namespace MyLeasing.Web.Controllers
             _context = context;
         }
 
-        // GET: PropertyTypes
         public async Task<IActionResult> Index()
         {
             return View(await _context.PropertyTypes.ToListAsync());
         }
 
-        // GET: PropertyTypes/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var propertyType = await _context.PropertyTypes
-                .FirstOrDefaultAsync(p => p.Id == id);
-            if (propertyType == null)
-            {
-                return NotFound();
-            }
-
-            return View(propertyType);
-        }
-
-        // GET: PropertyTypes/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: PropertyTypes/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] PropertyType propertyType)
+        public async Task<IActionResult> Create(PropertyType propertyType)
         {
             if (ModelState.IsValid)
             {
@@ -67,7 +41,6 @@ namespace MyLeasing.Web.Controllers
             return View(propertyType);
         }
 
-        // GET: PropertyTypes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -80,21 +53,14 @@ namespace MyLeasing.Web.Controllers
             {
                 return NotFound();
             }
+
             return View(propertyType);
         }
 
-        // POST: PropertyTypes/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] PropertyType propertyType)
+        public async Task<IActionResult> Edit(PropertyType propertyType)
         {
-            if (id != propertyType.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
@@ -113,12 +79,12 @@ namespace MyLeasing.Web.Controllers
                         throw;
                     }
                 }
+
                 return RedirectToAction(nameof(Index));
             }
             return View(propertyType);
         }
 
-        // GET: PropertyTypes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -134,16 +100,16 @@ namespace MyLeasing.Web.Controllers
                 return NotFound();
             }
 
-            if(propertyType.Properties.Count>0)
+            if (propertyType.Properties.Count > 0)
             {
+                //TODO: message
                 return RedirectToAction(nameof(Index));
             }
+
             _context.PropertyTypes.Remove(propertyType);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
-  
 
         private bool PropertyTypeExists(int id)
         {
